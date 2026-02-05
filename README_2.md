@@ -16,10 +16,12 @@ From this point on:
 6. Go and accept a Pull Request
 
 ### What to put in your file
-#### Your Name
+#### kayli Price
 Answer briefly:
 - One thing you understand about GitHub so far
+- I understand how to make a new branch and how to view/edit off of other branches.
 - One thing that is still confusing
+- I'm still getting used to the interface, but everything you've explained so far has made sense.
 
 ## Part C — Editing `in your branch` and pull request (Everyone)
 
