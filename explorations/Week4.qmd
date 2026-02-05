@@ -40,5 +40,14 @@ gapminder |>
   theme_minimal()
 
 ```
+Guiding Question: To what extent does GDP Per capita and life expectancy relate to eachother? Furthermore do the averages show a relationship
+```{r}
+gapminder|>
+  filter(year == 1952)
+  avg_gdpPercap -> mean(gdpPercap)
+  avg_lifeExp = mean(lifeExp)
+ggplot(aes(x = avg_gdpPercap, y = avg_lifeExp, color = continent)) + geom_point()
+theme_minimal()
+```
 
 
