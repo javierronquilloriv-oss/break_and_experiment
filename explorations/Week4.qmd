@@ -20,7 +20,7 @@ gapminder <- read_csv(
 -   **Wealth, Health, and Tension in the Data**
 
     **Guiding question:\
-    **To what extent does economic wealth explain differences in life expectancy, and where does this explanation break down? This is not a yes/no question. You are expected to explore **patterns and tensions** in the data.
+    **To what extent does economic wealth explain differences in life expectancy, and where does this explanation break down? \This is not a yes/no question. You are expected to explore **patterns and tensions** in the data.
 
 
 ```{r}
@@ -40,4 +40,5 @@ gapminder |>
   theme_minimal()
 
 ```
+
 
