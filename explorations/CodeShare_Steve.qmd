@@ -1,0 +1,20 @@
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"
+)
+
+gapminder |>
+  filter(continent == "Americas", year %in% c(1952, 2007)) |>
+  ggplot(aes(x = gdpPercap, y = country, color = factor(year))) +
+  geom_line(aes(group = country), color = "grey") +
+  geom_point(size = 3) +
+  labs(
+    title = "GDP Growth in the Americas (1952 vs 2007)",
+    x = "GDP per Capita",
+    y = "Country",
+    color = "Year"
+  ) +
+  theme_bw()
+```
