@@ -39,8 +39,6 @@ From this point on:
 6. Go and accept a Pull Request
 
 ### What to put in your file
-
-```md
 # Your Name
 Answer briefly:
 - One thing you understand about GitHub so far
