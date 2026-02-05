@@ -6,7 +6,6 @@ Test test test
 
 ---
 
-## Part A — Editing `main` (Everyone)
 
 **Goal:** Experience what it means to work on a shared file.
 
@@ -34,3 +33,4 @@ We will change how we work in Part B.
 
 
 test test test
+_ Spencer Everts
