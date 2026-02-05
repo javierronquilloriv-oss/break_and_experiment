@@ -19,9 +19,7 @@ We will change how we work in Part B.
 
 ### Class Participants
 
-|Name| Favorite Color| Something you enjoy|
-|----|---------------|---------------------|
-|Javier Ronquillo| Blue | Soccer and Guitar|
+- Javier Ronquillo
 
 ## Part B — Branch → File → Pull Request
 
@@ -38,6 +36,7 @@ From this point on:
 3. Add the content described below
 4. Commit your changes to your branch
 5. Open a **Pull Request** into `main`
+6. Go and accept a Pull Request
 
 ### What to put in your file
 
@@ -46,4 +45,22 @@ From this point on:
 Answer briefly:
 - One thing you understand about GitHub so far
 - One thing that is still confusing
+
+## Part C — Editing `main` (Everyone)
+
+**Goal:** Experience what it means to work on a shared file with the flow above
+
+Instructions:
+1. In your own branch (the one you already created) modify the README.md document
+2. Click the ✏️ Edit button
+3. Add your name under the section **Class Participants with more info**
+4. Commit your change.
+5. Open a **Pull Request** into `main`
+6. Go and accept a Pull Request if they don't have conflicts
+
+### Class Participants with more info
+
+|Name| Favorite Color| Something you enjoy|
+|----|---------------|---------------------|
+|Javier Ronquillo| Blue | Soccer and Guitar|
 
