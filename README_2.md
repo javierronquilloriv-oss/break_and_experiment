@@ -21,6 +21,8 @@ Answer briefly:
 - One thing you understand about GitHub so far
 - One thing that is still confusing
 
+I understand how I can use this app to collaborate with others
+I still need to get more familiar with the controls
 ## Part C — Editing `in your branch` and pull request (Everyone)
 
 **Goal:** Experience what it means to work on a shared file with the flow above
@@ -39,3 +41,4 @@ Instructions:
 |----|---------------|---------------------|
 |Carter Kimble| Green | Music and Comics|
 |Javier Ronquillo| Blue | Soccer and Guitar|
+|Natan Raei| Black| Watching movies and reading|
