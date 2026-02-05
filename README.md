@@ -27,3 +27,4 @@ We will change how we work in Part B.
 - Liam Duncan
 - Ashton Nystrom
 - Javier Ronquillo
+- Natan Raei
