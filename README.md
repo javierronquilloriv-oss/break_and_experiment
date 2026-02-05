@@ -4,7 +4,6 @@ No prior Git or GitHub experience is assumed.
 
 ---
 
-## Part A — Editing `main` (Everyone)
 
 **Goal:** Experience what it means to work on a shared file.
 
