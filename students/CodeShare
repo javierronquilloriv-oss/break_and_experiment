@@ -1,0 +1,20 @@
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"
+
+gapminder |>
+  group_by(continent, year) |>
+  summarize(avg_lifeExp = mean(lifeExp)) |>
+  ggplot(aes(x = year, y = avg_lifeExp, color = continent)) +
+  geom_line(linewidth = 1) +
+  labs(
+    title = "Life Expectancy Trends by Continent",
+    x = "Year",
+    y = "Average Life Expectancy",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```
+
