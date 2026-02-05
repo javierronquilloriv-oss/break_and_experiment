@@ -1,1 +1,14 @@
 
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"
+)
+
+gapLife = gapminder %>% group_by(continent,year) %>% summarize(avglifeExp = mean(lifeExp))
+view(gapLife)
+
+ggplot(gapLife, aes(x = year, y = avglifeExp, color = continent))+
+geom_line()
+```
