@@ -38,3 +38,4 @@ Instructions:
 |Name| Favorite Color| Something you enjoy|
 |----|---------------|---------------------|
 |Javier Ronquillo| Blue | Soccer and Guitar|
+|Carter Kimble| Green | Music and Comics|
