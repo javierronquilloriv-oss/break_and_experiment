@@ -29,3 +29,4 @@ We will change how we work in Part B.
 - Javier Ronquillo
 - Natan Raei
 - Steve Durr
+_ Spencer Everts
