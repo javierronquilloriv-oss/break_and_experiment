@@ -22,7 +22,7 @@ gapminder <- read_csv(
     **Guiding question:\
     **To what extent does economic wealth explain differences in life expectancy, and where does this explanation break down? \This is not a yes/no question. You are expected to explore **patterns and tensions** in the data.
 
-
+This graph shows continents by color comparing GDP per capita and Life Expectancy
 ```{r}
 gapminder |>
   group_by(continent) |>
@@ -38,7 +38,22 @@ gapminder |>
     y = "Life Expectancy"
   ) +
   theme_minimal()
-
+This graph shows countries by color comparing GDP per capita and Life Expectancy
+{r}
+gapminder |>
+  group_by(continent) |>
+  summarize(avg_lifeExp = mean(lifeExp), avg_gdp = mean(gdpPercap))
+gapminder |>
+  filter(continent == "Americas") |>
+  ggplot(aes(x = lifeExp, y = gdpPercap, color = country)) + 
+  geom_point() +
+  scale_x_log10() +
+  labs(
+    title = "GDP per Capita & Life Expectancy Comparison(Countries)",
+    x = "GDP",
+    y = "Life Expectancy"
+  ) +
+  theme_minimal()
 ```
 Guiding Question: To what extent does GDP Per capita and life expectancy relate to eachother? Furthermore do the averages show a relationship
 ```{r}
@@ -49,5 +64,6 @@ gapminder|>
 ggplot(aes(x = avg_gdpPercap, y = avg_lifeExp, color = continent)) + geom_point()
 theme_minimal()
 ```
+
 
 
