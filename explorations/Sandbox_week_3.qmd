@@ -1,0 +1,474 @@
+---
+title: "Week 3 Sandbox: Pipes, Summaries, and Grouped Data (v2)"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Purpose of today
+
+Today we will: - combine multiple table operations using the pipe `|>` -
+compute averages and other summaries - summarize data **by group** -
+produce meaningful tables from a real dataset
+
+**Pattern for today:** Predict → Run → Explain → Notice.
+
+**For reference,** the commands we'll explore today are in the following
+sections of the book:
+
+-   [4.3-4.4 Manipulating data
+    frames](https://rafalab.dfci.harvard.edu/dsbook/tidyverse.html#manipulating-data-frames)
+
+-   [4.5-4.6 The
+    Pipe](https://rafalab.dfci.harvard.edu/dsbook/tidyverse.html#the-pipe-or)
+
+-   [4.7 Summirizing
+    Data](https://rafalab.dfci.harvard.edu/dsbook/tidyverse.html#summarizing-data)
+
+-   [4.8
+    pull](https://rafalab.dfci.harvard.edu/dsbook/tidyverse.html#pull)
+
+-   [4.9-4.10 Sorting data
+    frames](https://rafalab.dfci.harvard.edu/dsbook/tidyverse.html#sorting-data-frames)
+
+------------------------------------------------------------------------
+
+## Step 1: Load packages and data
+
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"
+)
+
+# gapminder <- read_csv("gapminder-FiveYearData.csv")  # if you saved the CSV in the same folder as this qmd
+```
+
+```{r}
+head(gapminder, 10)
+```
+
+## Step 2: `select()` (choose columns to focus your thinking)
+
+`select()` helps you keep only the columns you care about right now.
+This does **not** change the rows — it only changes which variables you
+see.
+
+### 2A. Select a few columns
+
+**Before you run:** What do you think will happen to the table? I think it will sort by country alphabetically and then sort from oldest to newest year and it will output the lifeexp
+
+```{r}
+select(gapminder, country, year, lifeExp)
+```
+
+### How this works
+
+-   `select(data, col1, col2, ...)` keeps only the columns you list.
+-   This is useful when you want to reduce clutter and focus on a few
+    variables.
+
+### 2B. Select + arrange (see extremes more clearly)
+
+**Before you run:** What do you think `arrange()` will do after
+selecting? I think it will go by countries with the longest lifespan and then work down slowly.
+
+```{r}
+# df stands for dataframe
+df_reduced <- select(gapminder, country, year, lifeExp)
+arrange(df_reduced, desc(lifeExp))
+```
+
+### Notice 
+
+What are the largest `lifeExp` values you see? What do you notice about
+the `year` values near the top? The largest one that I can notice is 82.6 and the top ones are very close together, I also notice they are all within 2002 or 2007, showing that modern medicine does have some positive effect
+
+### 2C. Select + filter (focus a snapshot)
+
+**Before you run:** What will this keep? (rows? columns? both?) It will keep all but year as it will only output data from 2007, making the year column obseslote. 
+
+```{r}
+
+df_2007 <- filter(gapminder, year == 2007)
+select(df_2007, country, continent, lifeExp, gdpPercap)
+```
+
+### Notice
+
+Why might `select()` be helpful before making a table you want to read
+or share? If there is one you have in mind, create it below: It might be helpful as it helps you to really think through what you actually want
+
+```{r}
+gapmind <- filter(gapminder, year == 1957)
+select (gapmind, country, continent, lifeExp)
+```
+
+## Step 3: The pipe `|>` (why we use it)
+
+### 3A. One-step pipe
+
+**Before you run:** What operations and in what order are they being
+done below? 25 is put inside the sqrt and then we take the log of 5
+
+```{r}
+25 |> sqrt() |> log(5)
+
+16 |> sqrt() |> sqrt() 
+```
+
+**Before you run:** What do you think is being sent into `filter()`? I think it is only sending in data values from 2007
+
+```{r}
+gapminder |>
+  filter(year == 2007)
+```
+
+### How this works
+
+The pipe sends the result on the left to be the **first argument** of
+the function on the right.
+
+So this is equivalent to: if you for example had 25 |> sqrt(), that would be the same as saying sqrt(25)
+
+```{r}
+filter(gapminder, year == 2007)
+```
+
+### 3B. Two-step pipe (filter then select)
+
+**Before you run:** Which step happens first? What do you think the
+output will include?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  select(country, continent, lifeExp, gdpPercap)
+```
+
+### How this works
+
+You can read this left → right: **start with gapminder → keep 2007 →
+keep these columns**
+
+### 3C. Pipe vs “nested function” (same result, different readability)
+
+These two blocks do the *same thing*.
+
+**Pipe version:**
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  select(country, continent, lifeExp, gdpPercap) |>
+  arrange(desc(lifeExp))
+```
+
+**Nested version (no pipe):**
+
+```{r}
+arrange(
+  select(
+    filter(gapminder, year == 2007),
+    country, continent, lifeExp, gdpPercap
+  ),
+  desc(lifeExp)
+)
+```
+
+### Notice
+
+Which one is easier to read? Why?
+
+------------------------------------------------------------------------
+
+## Step 4: `summarize()` (one group)
+
+`summarize()` collapses many rows into a smaller table by computing
+summary statistics.
+
+### 4A. One summary statistic
+
+**Before you run:** How many rows do you expect?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  summarize(avg_lifeExp = mean(lifeExp))
+```
+
+### How this works
+
+-   `mean(lifeExp)` computes one number
+-   `summarize()` returns a **table** with that number (usually 1 row)
+
+### 4B. Multiple summaries (same idea, more power)
+
+**Before you run:** Still 1 row, or more than 1 row?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  summarize(
+    avg_lifeExp = mean(lifeExp),
+    min_lifeExp = min(lifeExp),
+    max_lifeExp = max(lifeExp)
+  )
+```
+
+### How this works
+
+Each summary you write becomes a new column in the output table.
+
+### 4C. Change the filter: compare years
+
+**Before you run:** Do you think the average life expectancy in 1952 is
+higher or lower than in 2007?
+
+```{r}
+gapminder |>
+  filter(year == 1952) |>
+  summarize(avg_lifeExp = mean(lifeExp))
+```
+
+### 4D. One more thing: pull
+
+**Summarize() returns a data frame:** If you need a number apply the
+function pull()
+
+```{r}
+# We apply class() to the previous command
+class(gapminder |>
+  filter(year == 1952) |>
+  summarize(avg_lifeExp = mean(lifeExp)))
+```
+
+Notice that even if a single number it is still a data frame, so we can
+not necessarily apply the usual 'numerical functions' to the result
+(numerical functions like: sqrt(), log(), etc.). To get the number out
+we apply the function `pull()`
+
+```{r}
+# Apply pull to the data frame that contains only one number
+pull(gapminder |>
+  filter(year == 1952) |>
+  summarize(avg_lifeExp = mean(lifeExp)))
+
+# We apply class() to see what type of object it is
+class(pull(gapminder |>
+  filter(year == 1952) |>
+  summarize(avg_lifeExp = mean(lifeExp))))
+```
+
+### 
+
+### Notice
+
+What changed when you changed the year?
+
+------------------------------------------------------------------------
+
+## Step 5: `group_by()` + `summarize()` (one row per group)
+
+`group_by()` changes how `summarize()` behaves.
+
+### 5A. Group then summarize (continent, year 2007)
+
+**Before you run:** How many rows do you expect? What will each row
+represent?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarize(avg_lifeExp = mean(lifeExp))
+```
+
+### How this works
+
+-   Without grouping: `summarize()` gives **one row total**
+-   With `group_by(continent)`: `summarize()` gives **one row per
+    continent**
+
+### 5B. Add multiple summaries + `n()`
+
+**Before you run:** What do you think `n()` counts here?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  group_by(continent) |>
+  summarize(
+    avg_lifeExp = mean(lifeExp),
+    avg_gdpPercap = mean(gdpPercap),
+    n = n()
+  ) |>
+  arrange(desc(avg_lifeExp))
+```
+
+### How this works
+
+-   `n()` counts the number of rows *inside each group*
+-   `arrange()` sorts the summary table
+
+### 5C. Change the grouping: summarize by year (trend)
+
+**Before you run:** How many rows should this have?
+
+```{r}
+gapminder |>
+  group_by(year) |>
+  summarize(avg_lifeExp = mean(lifeExp)) |>
+  arrange(year)
+```
+
+### Notice
+
+What general trend do you see?
+
+------------------------------------------------------------------------
+
+## Step 6: `mutate()` (add a new column)
+
+`mutate()` keeps the same number of rows, but adds new columns.
+
+### 6A. Create a new column (GDP per capita in thousands)
+
+**Before you run:** Will this change the number of rows?
+
+```{r}
+gapminder2 <- gapminder |>
+  mutate(gdp_k = gdpPercap / 1000)
+
+head(gapminder2)
+```
+
+### How this works
+
+-   `gdp_k` is computed **row by row**
+-   the new object has an extra column
+
+### 6B. Mutate + summarize (combine tools)
+
+**Before you run:** Will the result be 1 row or many rows?
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  mutate(gdp_k = gdpPercap / 1000) |>
+  summarize(avg_gdp_k = mean(gdp_k))
+```
+
+### 6C. Mutate + group_by + summarize (real data science pattern)
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  mutate(gdp_k = gdpPercap / 1000) |>
+  group_by(continent) |>
+  summarize(avg_gdp_k = mean(gdp_k), n = n()) |>
+  arrange(desc(avg_gdp_k))
+```
+
+### Notice
+
+Which continent has the highest average GDP per capita (in thousands) in
+2007?
+
+------------------------------------------------------------------------
+
+# Part A: Your own exploration (short)
+
+Pick ONE of these and try it:
+
+-   Group by `continent` in a different year and summarize average life
+    expectancy\
+-   Group by `year` and summarize average GDP per capita\
+-   Filter to one continent and look at the countries with the highest
+    `gdpPercap`
+
+Write down:
+
+1\) One thing you noticed\
+2) One question you have
+
+------------------------------------------------------------------------
+
+# Part B: Demonstrate what you know (deliverables)
+
+Try to complete **at least 3**. If you have time, try more.
+
+## Deliverable 1 — 2007 snapshot table (filter + select + arrange)
+
+Create a table with only 2007 data, showing: - `country`, `continent`,
+`lifeExp`, `gdpPercap` sorted by `lifeExp` (highest to lowest).
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Deliverable 2 — Mean life expectancy by continent (group_by + summarize)
+
+For the year 2007, create a table with: - one row per continent - with
+the average life expentancy for each continent sorted from highest to
+lowest average.
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Deliverable 3 — Trend over time (group_by year)
+
+Create a table with: - one row per year - average life expectancy for
+that year
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Deliverable 4 — Country-level means (what students asked for!)
+
+Across **all years**, compute (one row per country): - mean GDP per
+capita - mean population - mean life expectancy
+
+Show only the **top 10** countries by mean GDP per capita.
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Deliverable 5 — Two-way grouping (stretch)
+
+For each continent and each year, compute the average life expectancy.
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Reflection + Share
+
+-   One thing you can do now that you couldn’t last week
+-   One question you still have
+-   One command that feels most useful so far, and why
+
+## Extra Challenge
+
+-   Create at least one graph per table in Part B, which helps you
+    visualize the results. You can use what we learned in
+    Sandbox_week_2.
