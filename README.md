@@ -28,3 +28,4 @@ We will change how we work in Part B.
 - Ashton Nystrom
 - Javier Ronquillo
 - Natan Raei
+- Steve Durr
