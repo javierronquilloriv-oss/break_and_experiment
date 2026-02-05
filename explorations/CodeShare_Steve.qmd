@@ -18,4 +18,10 @@ gapminder |>
   ) +
   theme_bw()
 ```
+``{r}
+gapminder |>
+  filter(continent == "Africa") |>
+  ggplot(aes(year, lifeExp)) +
+  geom_point()+
+  labs(title = "Africa's Life Expectancy")
 
