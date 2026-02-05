@@ -28,10 +28,10 @@ Answer briefly:
 Instructions:
 1. In your own branch (the one you already created) modify the README.md document
 2. Click the ✏️ Edit button
-3. Add your name under the section **Class Participants with more info**
-4. Commit your change.
-5. Open a **Pull Request** into `main`
-6. Go and accept a Pull Request if they don't have conflicts
+3. Add your name under the section **Class Participants with more info**, This time put it on the top of the table.
+5. Commit your change.
+6. Open a **Pull Request** into `main`
+7. Go and accept a Pull Request if they don't have conflicts
 
 ### Class Participants with more info
 
