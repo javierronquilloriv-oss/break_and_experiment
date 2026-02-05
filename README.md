@@ -23,3 +23,4 @@ We will change how we work in Part B.
 - Andrew Johnson
 - Carter Kimble
 - Jose Pino
+- Kayli Price
