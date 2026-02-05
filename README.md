@@ -20,5 +20,5 @@ We will change how we work in Part B.
 ### Class Participants
 
 - Javier Ronquillo
--Andrew Johnson
-
+- Andrew Johnson
+- Carter Kimble
