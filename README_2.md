@@ -40,5 +40,4 @@ Instructions:
 |Name| Favorite Color| Something you enjoy|
 |----|---------------|---------------------|
 |Javier Ronquillo| Blue | Soccer and Guitar|
-
 |Natan Raei| Black| Watching movies and reading|
