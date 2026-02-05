@@ -25,3 +25,4 @@ We will change how we work in Part B.
 - Jose Pino
 - Kayli Price
 - Liam Duncan
+- Ashton Nystrom
