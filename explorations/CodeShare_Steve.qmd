@@ -9,7 +9,7 @@ gapminder |>
   filter(continent == "Americas", year %in% c(1952, 2007)) |>
   ggplot(aes(x = gdpPercap, y = country, color = factor(year))) +
   geom_line(aes(group = country), color = "grey") +
-  geom_point(size = 3) +
+  geom_point(size = 4) +
   labs(
     title = "GDP Growth in the Americas (1952 vs 2007)",
     x = "GDP per Capita",
@@ -18,3 +18,4 @@ gapminder |>
   ) +
   theme_bw()
 ```
+
