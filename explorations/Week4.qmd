@@ -1,0 +1,65 @@
+---
+title: "Week4 Work"
+format: html
+editor: visual
+---
+
+## Exploration 3 week 4
+
+## 
+
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv")
+
+# gapminder <- read_csv("gapminder-FiveYearData.csv")  # if you saved the CSV in the same folder as this qmd
+```
+
+-   **Wealth, Health, and Tension in the Data**
+
+    **Guiding question:\
+    **To what extent does economic wealth explain differences in life expectancy, and where does this explanation break down? This is not a yes/no question. You are expected to explore **patterns and tensions** in the data.
+
+    ### **Ways to sharpen the question (examples)**
+
+    You might choose to:
+
+-   Compare the GDP–life expectancy relationship across continents
+
+-   Examine how this relationship changes over time
+
+-   Identify years or regions where the relationship appears weaker or stronger
+
+Example analytical artifacts:
+
+-   A table of average GDP per capita and life expectancy by continent and year
+
+-   Scatterplots that make patterns and deviations visible
+
+### **Planning prompt**
+
+Explain:
+
+-   What would it mean, in data terms, for the relationship to be “strong” or “break down”?
+
+-   How will your visualizations help you detect this?
+
+```{r}
+gapminder |>
+  group_by(continent) |>
+  summarize(avg_lifeExp = mean(lifeExp), avg_gdp = mean(gdpPercap))
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = lifeExp, y = gdpPercap, color = continent)) + 
+  geom_point() +
+  scale_x_log10() +
+  labs(
+    title = "GDP per Capita & Life Expectancy Comparison",
+    x = "GDP",
+    y = "Life Expectancy"
+  ) +
+  theme_minimal()
+
+```
