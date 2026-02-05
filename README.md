@@ -24,3 +24,4 @@ We will change how we work in Part B.
 - Carter Kimble
 - Jose Pino
 - Kayli Price
+- Liam Duncan
