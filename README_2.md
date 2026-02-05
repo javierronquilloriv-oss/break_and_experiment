@@ -16,10 +16,12 @@ From this point on:
 6. Go and accept a Pull Request
 
 ### What to put in your file
-#### Your Name
+#### kayli Price
 Answer briefly:
 - One thing you understand about GitHub so far
+- I understand how to make a new branch and how to view/edit off of other branches.
 - One thing that is still confusing
+- I'm still getting used to the interface, but everything you've explained so far has made sense.
 
 I understand how I can use this app to collaborate with others
 I still need to get more familiar with the controls
@@ -42,3 +44,4 @@ Instructions:
 |Carter Kimble| Green | Music and Comics|
 |Javier Ronquillo| Blue | Soccer and Guitar|
 |Natan Raei| Black| Watching movies and reading|
+|Kayli Price     | Blue | Skiing and reading|
