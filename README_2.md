@@ -37,5 +37,5 @@ Instructions:
 
 |Name| Favorite Color| Something you enjoy|
 |----|---------------|---------------------|
+|Carter Kimble| Green | Music and Comics|
 |Javier Ronquillo| Blue | Soccer and Guitar|
-
