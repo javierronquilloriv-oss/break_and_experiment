@@ -1,0 +1,376 @@
+---
+title: "Week 4 Sandbox: ggplot2 with Gapminder"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Purpose of today
+
+Today we will learn the basics of **ggplot2** (the main plotting system
+in tidyverse).
+
+We will follow this pattern:
+
+**Predict → Run → Explain → Notice**
+
+We'll keep using the **Gapminder** dataset.
+
+------------------------------------------------------------------------
+
+## Step 1: Load packages and data
+
+```{r}
+library(tidyverse)
+
+gapminder <- read_csv(
+  "https://raw.githubusercontent.com/resbaz/r-novice-gapminder-files/master/data/gapminder-FiveYearData.csv"
+)
+```
+
+Quick check:
+
+```{r}
+glimpse(gapminder)
+```
+
+------------------------------------------------------------------------
+
+# Part A — Learn ggplot2 basics (scaffolded)
+
+## A0. The ggplot "sentence"
+
+Most ggplot plots look like this:
+
+``` r
+ggplot(data, aes(x = ..., y = ...)) + geom_...()
+```
+
+-   `data` is a data frame (like `gapminder`)
+-   `aes()` means **aesthetic mapping** (which variables go to x, y,
+    color, etc.)
+-   `geom_...()` chooses *how* to draw the data (points, lines, bars)
+
+------------------------------------------------------------------------
+
+## A1. Scatterplots with `geom_point()`
+
+### Example 1 — basic scatterplot
+
+**Before you run:** What will each point represent?
+
+-   gdpPercap and lifeExp from the same row( same country and year)
+
+```{r}
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+
+```
+
+**How this works** - Each row of the data becomes one point. - x and y
+must be numeric to make a scatterplot.
+
+**Notice** What relationship do you see (if any) between GDP per person
+and life expectancy?
+
+-   There appears to be some relationship, but lifeExp does seem to
+    plateau. Some of the countries with the highest gdp seem to have an
+    average lifeExp compared to the clump of the left–which has lower
+    gdp, but higher lifeExp.
+
+------------------------------------------------------------------------
+
+### Example 2 — add color for groups
+
+**Before you run:** What will change if we map `continent` to color?
+
+-   each continent will have a color
+
+```{r}
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point()
+```
+
+**How this works** - Mapping `color = continent` makes points different
+colors by continent. - ggplot creates a legend automatically.
+
+**Notice** What patterns become easier to see when color is added?
+
+-   trends in the continents become easier to see. One example is that
+    European countries as a whole have a pretty high average lifeExp,
+    but low to medium gdp. Many European countries are smaller, so a
+    lower gdp makes sense, but Europe is also known for having good
+    healthcare and coverage so having a high lifeExp makes sense.
+
+------------------------------------------------------------------------
+
+## A2. Filter before plotting (reduce clutter)
+
+### Example 3 — focus on one year (2007)
+
+**Before you run:** Will this plot have more points or fewer points than
+the previous ones?
+
+-   fewer because the data is being filtered
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point()
+```
+
+**How this works** - The pipe `|>` sends the filtered table into
+`ggplot(...)`. - Filtering can make a plot easier to interpret.
+
+**Notice** How does focusing on one year change the story?
+
+-   the data is more specific and allows us to think about time frame.
+
+------------------------------------------------------------------------
+
+### Example 4 — optional: log scale (just to *see* it)
+
+Sometimes GDP is easier to visualize on a log scale.
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point() +
+  scale_x_log10()
+```
+
+**How this works** - `scale_x_log10()` changes the x-axis scale to
+log10. - This spreads out values that differ by factors of 10.
+
+**Notice** What becomes easier to see with the log scale?
+
+-   the changes in gdp
+
+------------------------------------------------------------------------
+
+## A3. Line plots with `geom_line()` (connect to Week 3 summaries)
+
+### Example 5 — average life expectancy over time (global)
+
+**Before you run:** How many rows will the summarized table have?
+
+-   none... because it's making a plot??
+
+```{r}
+gapminder |>
+  group_by(year) |>
+  summarize(avg_lifeExp = mean(lifeExp)) |>
+  ggplot(aes(x = year, y = avg_lifeExp)) +
+  geom_line()
+```
+
+**How this works** - `group_by(year)` + `summarize(...)` creates one row
+per year. - `geom_line()` connects points in order of x.
+
+**Notice** What general trend do you see over time?
+
+-   avg lifeExp increases over time
+
+------------------------------------------------------------------------
+
+### Example 6 — average life expectancy over time by continent
+
+**Before you run:** How many lines do you expect? Why?
+
+-   five lines, one per continent
+
+```{r}
+gapminder |>
+  group_by(continent, year) |>
+  summarize(avg_lifeExp = mean(lifeExp)) |>
+  ggplot(aes(x = year, y = avg_lifeExp, color = continent)) +
+  geom_line()
+```
+
+**How this works** - One line per continent because
+`color = continent`. - Grouped summaries make trends clearer than
+plotting every country.
+
+**Notice** Which continents increase earlier vs later?
+
+-   From earliest to latest: Oceania, Europe, Americas, Asia, Africa
+
+------------------------------------------------------------------------
+
+## A4. Bar charts with `geom_col()` (tables → bars)
+
+`geom_col()` is used when you already have a summarized table and want
+bars.
+
+### Example 7 — number of countries per continent (in 2007)
+
+**Before you run:** Will these bars sum to the total number of countries
+in the dataset?
+
+-   The number of bars will equal the number of continents.
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  count(continent) |>
+  ggplot(aes(x = continent, y = n)) +
+  geom_col()
+```
+
+**How this works** - `count(continent)` makes a small table with columns
+`continent` and `n`. - `geom_col()` draws bars with heights equal to
+`y`.
+
+**Notice** What does the height of each bar represent?
+
+-   number of countries counted in that continent for this data frame
+
+------------------------------------------------------------------------
+
+### Example 8 — top 10 countries by life expectancy (2007)
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  arrange(desc(lifeExp)) |>
+  select(country, lifeExp) |>
+  slice_head(n = 10) |>
+  ggplot(aes(x = reorder(country, lifeExp), y = lifeExp)) +
+  geom_col() +
+  coord_flip()
+```
+
+**How this works** - We filter to 2007, sort by `lifeExp`, keep the top
+10. - `reorder(country, lifeExp)` orders the bars by value. -
+`coord_flip()` makes the labels readable.
+
+**Notice** Which countries appear? Anything surprising?
+
+-   japan, China, Iceland, Switzerland, Australia, Spain, Sweden,
+    Israel, France, and Canada. I was a bit surprised by Iceland because
+    it seems random, but if I think about it it makes sense.
+
+------------------------------------------------------------------------
+
+## A5. Labels (make plots readable)
+
+You can add titles and axis labels with `labs()`:
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point() +
+  labs(
+    title = "Life Expectancy vs GDP per Capita (2007)",
+    x = "GDP per capita",
+    y = "Life expectancy (years)",
+    color = "Continent"
+  )
+```
+
+------------------------------------------------------------------------
+
+# Part B — Deliverables (make specific meaningful plots)
+
+Do the **two required plots**, then choose **one** option.
+
+## Deliverable 1 (required): 2007 scatterplot
+
+Make a scatterplot for **2007** showing: - x = `gdpPercap` - y =
+`lifeExp` - color = `continent` - add a clear title and axis labels
+using `labs()`
+
+```{r}
+gapminder |>
+  filter(year == 2007) |>
+  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
+  geom_point() +
+  labs(
+    title = "Life Expectancy vs GDP per capita (2007)",
+    x = "GDP per Capita",
+    y = "Life Expectancy")
+```
+
+Write 2 sentences: - one trend you see - one question you have
+
+-   Life Expectancy plateaus despite gdp continuing to increase.
+
+-   Why do some countries have such high gdps while others have very low
+    gdps?
+
+-   The countries that have a high lifeExp and low gdp– why is their
+    lifeExp higher than other countries with similar gdps?
+
+------------------------------------------------------------------------
+
+## Deliverable 2 (required): global trend line
+
+Make a line plot showing **average life expectancy over time**
+(global): - group by year - summarize mean life expectancy - plot year
+vs average life expectancy
+
+```{r}
+# your code here
+```
+
+Write 2 sentences: - describe the overall trend - name one time period
+where it looks different (if any)
+
+------------------------------------------------------------------------
+
+## Deliverable 3 (choose ONE)
+
+### Option A: trends by continent (multiple lines)
+
+Make a line plot showing average life expectancy over time **by
+continent**.
+
+```{r}
+# your code here
+```
+
+Write 2 sentences: - compare two continents - what stands out?
+
+------------------------------------------------------------------------
+
+### Option B: bar chart — top 10 life expectancy (2007)
+
+Make a bar chart of the **top 10 countries by life expectancy** in 2007.
+(Use `geom_col()` and make country labels readable.)
+
+```{r}
+# your code here
+```
+
+Write 2 sentences: - what you notice - one limitation of this plot
+
+------------------------------------------------------------------------
+
+### Option C: your question (with instructor approval)
+
+Propose a plot idea using Gapminder. Your plot must: - use ggplot2 -
+include a title and labeled axes - help answer a real question
+
+Write: 1) your question\
+2) the code for the plot\
+3) 2–3 sentences interpreting what you see
+
+```{r}
+# your code here
+```
+
+------------------------------------------------------------------------
+
+## Share
+
+With a partner, share: 1) one plot you are proud of\
+2) one question you still have\
+3) one new ggplot feature you used today
