@@ -4,7 +4,6 @@ No prior Git or GitHub experience is assumed.
 
 ---
 
-## Part A — Editing `main` (Everyone)
 
 **Goal:** Experience what it means to work on a shared file.
 
@@ -28,3 +27,5 @@ We will change how we work in Part B.
 - Ashton Nystrom
 - Javier Ronquillo
 - Natan Raei
+- Steve Durr
+_ Spencer Everts
