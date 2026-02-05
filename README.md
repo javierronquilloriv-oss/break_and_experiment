@@ -22,3 +22,4 @@ We will change how we work in Part B.
 - Javier Ronquillo
 - Andrew Johnson
 - Carter Kimble
+- Jose Pino
